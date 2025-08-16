@@ -1,0 +1,681 @@
+{
+	"info": {
+		"_postman_id": "69dbe5b5-1bb2-4015-8a4e-db279d1c6482",
+		"name": "Microservicio de MercadoPago",
+		"description": "Documentacion de Swagger del Microservicio de MecadoPago",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39755987"
+	},
+	"item": [
+		{
+			"name": "payment",
+			"item": [
+				{
+					"name": "Crear un nuevo pago",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"totalAmount\": 250,\n  \"description\": \"Pago de consulta médica\",\n  \"title\": \"Consulta Médica General\",\n  \"payerName\": \"María González\",\n  \"paymentMethodId\": \"debmaster\",\n  \"paymentTypeId\": \"debit_card\",\n  \"splitPayment\": false,\n  \"payer\": {\n    \"email\": \"maria.gonzalez@ejemplo.com\",\n    \"identification\": {\n      \"type\": \"DNI\",\n      \"number\": \"12345678\"\n    }\n  },\n  \"token\": \"ff8080814c11e237014c1ff593b57b4d\",\n  \"installments\": 1,\n  \"issuerId\": \"24\",\n  \"companyId\": 123\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payment",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payment"
+							]
+						},
+						"description": "Genera una nueva preferencia de pago en MercadoPago usando los datos proporcionados en el DTO. Retorna la información del pago creado incluyendo la URL de checkout.Los metodos pueden ser account_money, debit_card o credit_cardLos tipos de pago deben ser account_money, debmaster, debvisa, amex, visa, master"
+					},
+					"response": [
+						{
+							"name": "Pago creado exitosamente. En caso de que el pago se realice usando Checkout Pro (account_money o splitPayment = true)el frontend debe utilizar el id que retorna el back para implementar un front (Leer la documentation de MercadoPago Checkout Pro)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"totalAmount\": 250,\n  \"description\": \"Pago de consulta médica\",\n  \"title\": \"Consulta Médica General\",\n  \"payerName\": \"María González\",\n  \"paymentMethodId\": \"debmaster\",\n  \"paymentTypeId\": \"debit_card\",\n  \"splitPayment\": false,\n  \"payer\": {\n    \"email\": \"maria.gonzalez@ejemplo.com\",\n    \"identification\": {\n      \"type\": \"DNI\",\n      \"number\": \"12345678\"\n    }\n  },\n  \"token\": \"ff8080814c11e237014c1ff593b57b4d\",\n  \"installments\": 1,\n  \"issuerId\": \"24\",\n  \"companyId\": 123\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/payment",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"payment"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"string\",\n  \"description\": \"Pago de seguro médico plan premium\",\n  \"status\": \"approved\",\n  \"statusDetail\": \"accredited\",\n  \"paymentMethodId\": \"visa\",\n  \"paymentTypeId\": \"credit_card\",\n  \"transactionAmount\": 100.5\n}"
+						},
+						{
+							"name": "Datos de pago inválidos o faltantes",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"totalAmount\": 250,\n  \"description\": \"Pago de consulta médica\",\n  \"title\": \"Consulta Médica General\",\n  \"payerName\": \"María González\",\n  \"paymentMethodId\": \"debmaster\",\n  \"paymentTypeId\": \"debit_card\",\n  \"splitPayment\": false,\n  \"payer\": {\n    \"email\": \"maria.gonzalez@ejemplo.com\",\n    \"identification\": {\n      \"type\": \"DNI\",\n      \"number\": \"12345678\"\n    }\n  },\n  \"token\": \"ff8080814c11e237014c1ff593b57b4d\",\n  \"installments\": 1,\n  \"issuerId\": \"24\",\n  \"companyId\": 123\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/payment",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"payment"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Metodo de pago o Tipo de pago incorrecto",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"totalAmount\": 250,\n  \"description\": \"Pago de consulta médica\",\n  \"title\": \"Consulta Médica General\",\n  \"payerName\": \"María González\",\n  \"paymentMethodId\": \"debmaster\",\n  \"paymentTypeId\": \"debit_card\",\n  \"splitPayment\": false,\n  \"payer\": {\n    \"email\": \"maria.gonzalez@ejemplo.com\",\n    \"identification\": {\n      \"type\": \"DNI\",\n      \"number\": \"12345678\"\n    }\n  },\n  \"token\": \"ff8080814c11e237014c1ff593b57b4d\",\n  \"installments\": 1,\n  \"issuerId\": \"24\",\n  \"companyId\": 123\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/payment",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"payment"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Webhook de notificaciones de pago",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 12345,\n  \"live_mode\": true,\n  \"type\": \"payment\",\n  \"date_created\": \"2015-03-25T10:04:58.396-04:00\",\n  \"user_id\": 44444,\n  \"api_version\": \"v1\",\n  \"action\": \"payment.created\",\n  \"data\": {}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payment/webhook",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payment",
+								"webhook"
+							]
+						},
+						"description": "Endpoint que recibe las notificaciones de MercadoPago cuando cambia el estado de un pago. Procesa la notificación y actualiza el estado del pago en la base de datos. El webhook incluye información completa del evento como ID, fecha de creación, acción realizada, etc."
+					},
+					"response": [
+						{
+							"name": "Webhook procesado correctamente",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 12345,\n  \"live_mode\": true,\n  \"type\": \"payment\",\n  \"date_created\": \"2015-03-25T10:04:58.396-04:00\",\n  \"user_id\": 44444,\n  \"api_version\": \"v1\",\n  \"action\": \"payment.created\",\n  \"data\": {}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/payment/webhook",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"payment",
+										"webhook"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Webhook procesado correctamente\",\n  \"paymentId\": 123456789,\n  \"status\": \"approved\"\n}"
+						},
+						{
+							"name": "Datos del webhook inválidos o tipo no soportado",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 12345,\n  \"live_mode\": true,\n  \"type\": \"payment\",\n  \"date_created\": \"2015-03-25T10:04:58.396-04:00\",\n  \"user_id\": 44444,\n  \"api_version\": \"v1\",\n  \"action\": \"payment.created\",\n  \"data\": {}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/payment/webhook",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"payment",
+										"webhook"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"Type no válido\""
+						},
+						{
+							"name": "Pago no encontrado en la base de datos",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 12345,\n  \"live_mode\": true,\n  \"type\": \"payment\",\n  \"date_created\": \"2015-03-25T10:04:58.396-04:00\",\n  \"user_id\": 44444,\n  \"api_version\": \"v1\",\n  \"action\": \"payment.created\",\n  \"data\": {}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/payment/webhook",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"payment",
+										"webhook"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Error interno del servidor al procesar el webhook",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 12345,\n  \"live_mode\": true,\n  \"type\": \"payment\",\n  \"date_created\": \"2015-03-25T10:04:58.396-04:00\",\n  \"user_id\": 44444,\n  \"api_version\": \"v1\",\n  \"action\": \"payment.created\",\n  \"data\": {}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/payment/webhook",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"payment",
+										"webhook"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"Error interno del servidor\""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "oauth",
+			"item": [
+				{
+					"name": "Iniciar proceso de autorización",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/oauth/start/:companyTokenId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"oauth",
+								"start",
+								":companyTokenId"
+							],
+							"variable": [
+								{
+									"key": "companyTokenId",
+									"value": "123",
+									"description": "(Required) ID de la empresa registrada. La empresa debe estar registrada antes de generarle el pago"
+								}
+							]
+						},
+						"description": "Genera la URL de autorización para que la empresa inicie el proceso de split payment con MercadoPago. Se generan los códigos para mandar a MP y MP lo manda a Auth0. MP devuelve el código de autorización y un state que sería un identificador único."
+					},
+					"response": [
+						{
+							"name": "URL de autorización generada exitosamente",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/oauth/start/:companyTokenId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"oauth",
+										"start",
+										":companyTokenId"
+									],
+									"variable": [
+										{
+											"key": "companyTokenId",
+											"value": "123",
+											"description": "(Required) ID de la empresa registrada. La empresa debe estar registrada antes de generarle el pago"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"https://auth.mercadopago.com/authorization?client_id=...\""
+						},
+						{
+							"name": "ID de empresa inválido o faltante",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/oauth/start/:companyTokenId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"oauth",
+										"start",
+										":companyTokenId"
+									],
+									"variable": [
+										{
+											"key": "companyTokenId",
+											"value": "123",
+											"description": "(Required) ID de la empresa registrada. La empresa debe estar registrada antes de generarle el pago"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Error interno del servidor al generar la autorización",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/oauth/start/:companyTokenId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"oauth",
+										"start",
+										":companyTokenId"
+									],
+									"variable": [
+										{
+											"key": "companyTokenId",
+											"value": "123",
+											"description": "(Required) ID de la empresa registrada. La empresa debe estar registrada antes de generarle el pago"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Callback de autorización",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/oauth/callback?code=TG-507f1f77bcf86cd799439011&state=string",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"oauth",
+								"callback"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "TG-507f1f77bcf86cd799439011",
+									"description": "(Required) Código de autorización generado por MercadoPago al mandar el code challenge"
+								},
+								{
+									"key": "state",
+									"value": "string",
+									"description": "(Required) Identificador único para la transacción, en este caso es el id de la empresa"
+								}
+							]
+						},
+						"description": "Endpoint de callback que se ejecuta después del proceso de autorización. Una vez que se ejecuta el endpoint de inicio y la empresa acepta, se redirige aquí y se pasan los parámetros generados en el endpoint anterior."
+					},
+					"response": [
+						{
+							"name": "Autorización procesada exitosamente",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/oauth/callback?code=TG-507f1f77bcf86cd799439011&state=string",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"oauth",
+										"callback"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "TG-507f1f77bcf86cd799439011"
+										},
+										{
+											"key": "state",
+											"value": "string"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"Autorizacion completada\""
+						},
+						{
+							"name": "Parámetros de callback inválidos",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/oauth/callback?code=TG-507f1f77bcf86cd799439011&state=string",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"oauth",
+										"callback"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "TG-507f1f77bcf86cd799439011"
+										},
+										{
+											"key": "state",
+											"value": "string"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Error al procesar la autorización",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/oauth/callback?code=TG-507f1f77bcf86cd799439011&state=string",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"oauth",
+										"callback"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "TG-507f1f77bcf86cd799439011"
+										},
+										{
+											"key": "state",
+											"value": "string"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
